@@ -34,4 +34,25 @@ const registerUser = (async(req,res)=>{
     }
 })
 
+const authuser = asyncHandler(async (req,res)=>{
+    const {email,password} = req.body;
+    const user = await User.findOne({email})
+    if(user){
+        res.json({
+            _id:user._id,
+            nama:user.name,
+            email:user.email,
+            pic:user.pic,
+            token:genrateToken(user._id),
+        })
+    }else{
+        res.status(401);
+        throw new Error("Invalid Eamil or Password")
+    }
+})
+
+
+
+
+
 module.exports = {registerUser};
