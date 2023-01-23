@@ -37,10 +37,10 @@ const registerUser = (async(req,res)=>{
 const authuser = asyncHandler(async (req,res)=>{
     const {email,password} = req.body;
     const user = await User.findOne({email})
-    if(user){
+    if(user  && ( await user.matchPassword(password))){
         res.json({
             _id:user._id,
-            nama:user.name,
+            name:user.name,
             email:user.email,
             pic:user.pic,
             token:genrateToken(user._id),
@@ -55,4 +55,4 @@ const authuser = asyncHandler(async (req,res)=>{
 
 
 
-module.exports = {registerUser};
+module.exports = {registerUser,authuser};
