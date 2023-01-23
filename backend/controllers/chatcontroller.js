@@ -82,12 +82,74 @@ const createGroupChat = AsyncHandler(async(req,res)=>{
             users:users,
             isGroupChat:true,
             groupAdmin:req.user,
-        })
+        });
+        const fullGroupChat = await Chat.findOne({_id:groupChat._id})
+        .populate("users","-password")
+        .populate("groupAdmin","-password")
+        res.status(200).json(fullGroupChat)
+
     } catch (error) {
-        
+        console.log(error);
+        res.status(400);
+        throw new Error(error.message);
     }
 
 });
 
+const renameGroup = AsyncHandler(async(req,res)=>{
+        const {chatId,chatName} = req.body;
+        const updatedChat = await Chat.findByIdAndUpdate(
+            chatId,
+            {
+                chatName,
+            },{
+                new:true,
+            }
+        ).populate("users","-password")
+        .populate("groupAdmin","-password");
 
-module.exports = {accessChat,fetchchats,createGroupChat}
+        if(!updatedChat){
+            res.status(404);
+            throw new Error("Chat Not Found")
+        }else{
+            res.json(updatedChat)
+        }
+})
+
+const addToGroup = AsyncHandler(async(req,res)=>{
+    const { chatId , userId } = req.body;
+    const added = await Chat.findByIdAndUpdate(
+        chatId,
+        {
+            $push:{users:userId},
+        },
+        {new:true}
+        ).populate("users","-password")
+        .populate("groupAdmin","-password");
+        if(!added){
+            res.status(404);
+            throw new Error("Chat Not Found")
+        }else{
+            res.json(added)
+        }
+})
+
+const removeFromGroup = AsyncHandler(async(req,res)=>{
+         const { chatId , userId } = req.body;
+    const remove = await Chat.findByIdAndUpdate(
+        chatId,
+        {
+            $pull:{users:userId},
+        },
+        {new:true}
+        ).populate("users","-password")
+        .populate("groupAdmin","-password");
+        if(!remove){
+            res.status(404);
+            throw new Error("Chat Not Found")
+        }else{
+            res.json(remove)
+        }
+})
+
+module.exports = {accessChat,fetchchats,createGroupChat,renameGroup,addToGroup,removeFromGroup}
