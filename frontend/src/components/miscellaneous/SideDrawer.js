@@ -94,7 +94,7 @@ const SideDrawer = () => {
       setLoadingChat(false);
       onClose();
 
-    } catch (error) {
+    }catch(error) {
           toast({
       title:"Error fetching the chat",
       description:error.message,
