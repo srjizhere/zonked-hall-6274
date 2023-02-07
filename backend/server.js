@@ -8,6 +8,7 @@ const app = express()
 app.use(express.json())
 const userRoutes = require('./Routs/userRouts');
 const chatRoutes = require('./Routs/chat.Routes');
+const messageRoutes = require('./Routs/messageRoutes');
 const {notFound,errHandler} = require('./middelware/error.middelware');
 
 
@@ -20,6 +21,7 @@ app.get('/',(req,res)=>{
 
 app.use("/api/user",userRoutes)
 app.use('/api/chat',chatRoutes)
+app.use('/api/message',messageRoutes)
 
 app.use(notFound)
 app.use(errHandler)
