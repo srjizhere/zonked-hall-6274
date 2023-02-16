@@ -48,4 +48,7 @@ app.use(errHandler)
 
 
 
-app.listen(process.env.port,console.log(`server running on port ${process.env.port}` .yellow.bold))
+app.listen(process.env.port,()=>{
+    console.log(`server running on port ${process.env.port}` .yellow.bold)
+
+})

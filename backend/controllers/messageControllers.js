@@ -29,6 +29,7 @@ const User = require('../models/user.model');
         res.json(message)
     } catch (error) {
         res.status(400);
+        console.log(error);
         throw new Error(error.message)
     }
  });
@@ -39,11 +40,12 @@ const User = require('../models/user.model');
             "sender",
             "name pic email"
         ).populate("chat")
-
+        console.log(messages);
         res.json(messages)
         
     } catch (error) {
         res.status(400)
+        console.log(error);
         throw new Error(error.message)
     }
 

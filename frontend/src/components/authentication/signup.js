@@ -60,6 +60,7 @@ const Signup = () => {
             setLoading(false);
             history.pushState('/chats')
         }catch(error){
+            console.log(error);
                    toast({
                 title:"Error",
                 description:error.response.data.message,
