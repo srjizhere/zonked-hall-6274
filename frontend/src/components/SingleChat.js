@@ -16,12 +16,16 @@ import UpdateGroupChatModal from "./miscellaneous/UpdateGroupChatModal";
 import axios from "axios";
 import './style.css'
 import ScrollableChat from "./ScrollableChat";
+import io from 'socket.io-client';
 
+const ENDPOINT = "http://localhost:5000"
+var socket,SelectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setmessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [socketConnected, setSocketConnected] = useState(false)
 
   const toast = useToast()
 
@@ -59,6 +63,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   useEffect(() => {
     fetchMessages();
+    // eslint-disable-next-line
   },[SelectedChat])
   
 
@@ -93,6 +98,19 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
+  useEffect(() => {
+   socket = io(ENDPOINT)
+   socket.emit("setup",user);
+   socket.on("connection",()=>{
+    setSocketConnected(true)
+   })
+  }, [])
+  
+
+
+
+
+
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
 
@@ -156,7 +174,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               />
             ) : (
               <div className="messages" >
-                <ScrollableChat messages = {messages} />
+            <ScrollableChat  messages = {messages} />
               </div>
             )}
             <FormControl onKeyDown={sendMessage} isRequired mt={3}>

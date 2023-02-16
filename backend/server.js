@@ -26,29 +26,27 @@ app.use('/api/message',messageRoutes)
 app.use(notFound)
 app.use(errHandler)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.listen(process.env.port,()=>{
+const server  = app.listen(process.env.port,()=>{
     console.log(`server running on port ${process.env.port}` .yellow.bold)
 
+})
+
+const io = require('socket.io')(server,{
+    pingTimeout:60000,
+    cors:{
+        origin:"http://localhost:3000"
+    }
+})
+io.on("connection",(socket)=>{
+console.log(`connected to socket.io`);
+
+    socket.on('setup',(userData)=>{
+        socket.join(userData._id);
+        console.log(userData._id);
+        socket.emit("connected")
+    })
+    socket.on('joinChat',(room)=>{
+        socket.join(room)
+        console.log("user joined room  " + room);
+    })
 })

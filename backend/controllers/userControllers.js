@@ -3,7 +3,7 @@ const User = require('../models/user.model');
 const genrateToken = require('../config/genratetoken');
 
 
-const registerUser = (async(req,res)=>{
+const registerUser = asyncHandler(async(req,res)=>{
     const {name,email,password,pic} = req.body;
     if(!name || !email  || !password){
         res.status(400);

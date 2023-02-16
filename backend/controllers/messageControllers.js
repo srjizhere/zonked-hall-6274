@@ -40,7 +40,6 @@ const User = require('../models/user.model');
             "sender",
             "name pic email"
         ).populate("chat")
-        console.log(messages);
         res.json(messages)
         
     } catch (error) {
