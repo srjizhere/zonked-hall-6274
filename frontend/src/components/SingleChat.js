@@ -46,8 +46,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             );
             console.log(messages);
             console.log(data,"dsfas");
-            setmessages(data)
-            setLoading(false)
+            setmessages(data);
+            setLoading(false);
+            socket.emit('joinChat',SelectedChat._id);
         
     } catch (error) {
            toast({
@@ -60,11 +61,31 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         });
     }
   }
+    useEffect(() => {
+      socket = io(ENDPOINT);
+      socket.emit("setup", user);
+      socket.on("connection", () => {
+        setSocketConnected(true);
+      });
+    }, []);
+  
 
   useEffect(() => {
     fetchMessages();
+    SelectedChatCompare = SelectedChat;
     // eslint-disable-next-line
-  },[SelectedChat])
+  },[SelectedChat]);
+
+  useEffect(() => {
+   socket.on("message recieved",(newMessageRecieved)=>{
+    if(!SelectedChatCompare ||SelectedChatCompare._id!==newMessageRecieved.chat._id){
+      //give notifications
+    }else{
+      setmessages([...messages,newMessageRecieved])
+    }
+   })
+  })
+  
   
 
   const sendMessage = async (event) => {
@@ -84,7 +105,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           config
         );
         console.log(data);
-   
+        socket.emit("new message", data);
         setmessages([...messages, data]);
       } catch (error) {
         toast({
@@ -98,14 +119,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     }
   };
-  useEffect(() => {
-   socket = io(ENDPOINT)
-   socket.emit("setup",user);
-   socket.on("connection",()=>{
-    setSocketConnected(true)
-   })
-  }, [])
-  
+
 
 
 
