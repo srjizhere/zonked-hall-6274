@@ -3,13 +3,14 @@ const colors = require('colors');
 const {chats} = require('./data/data')
 require('dotenv').config()
 const connectDB = require('./config/db');
-connectDB()
+connectDB();
 const app = express()
 app.use(express.json())
 const userRoutes = require('./Routs/userRouts');
 const chatRoutes = require('./Routs/chat.Routes');
 const messageRoutes = require('./Routs/messageRoutes');
 const {notFound,errHandler} = require('./middelware/error.middelware');
+const { Socket } = require('socket.io');
 
 
 
@@ -26,7 +27,7 @@ app.use('/api/message',messageRoutes)
 app.use(notFound)
 app.use(errHandler)
 
-const server  = app.listen(process.env.port,()=>{
+const server  = app.listen(process.env.port,()=>{ 
     console.log(`server running on port ${process.env.port}` .yellow.bold)
 
 })
@@ -65,5 +66,10 @@ console.log(`connected to socket.io`);
 
             socket.in(user._id).emit("message recieved",newMessageRecieved)
         });
+    });
+    socket.off("setup",()=>{
+        console.log('USER DISCONNECTED');
+        socket.leave(userData._id)
     })
-})
+});
+
