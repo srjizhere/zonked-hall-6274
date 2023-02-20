@@ -11,19 +11,36 @@ const chatRoutes = require('./Routs/chat.Routes');
 const messageRoutes = require('./Routs/messageRoutes');
 const {notFound,errHandler} = require('./middelware/error.middelware');
 const { Socket } = require('socket.io');
+const path = require('path')
 
 
 
 
 
-app.get('/',(req,res)=>{
-    res.send("API is running Successfully")
-});
 
 app.use("/api/user",userRoutes)
 app.use('/api/chat',chatRoutes)
 app.use('/api/message',messageRoutes)
+// -----------deployment------------
 
+
+const __dirname1 =path.resolve();
+if(process.env.NODE_ENV==="production"){
+    app.use(express.static(path.join(__dirname1, "/frontend/build")))
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname1,"frontend","build","index.html"))
+    })
+}else{    
+app.get("/", (req, res) => {
+  res.send("API is running Successfully");
+});
+
+}
+
+
+
+
+// -------------deployment-------------
 app.use(notFound)
 app.use(errHandler)
 
@@ -32,12 +49,12 @@ const server  = app.listen(process.env.port,()=>{
 
 })
 
-const io = require('socket.io')(server,{
-    pingTimeout:60000,
-    cors:{
-        origin:"http://localhost:3000"
-    }
-})
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "https://chat-app-deploy.onrender.com/",
+  },
+});
 io.on("connection",(socket)=>{
 console.log(`connected to socket.io`);
 
