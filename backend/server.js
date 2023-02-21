@@ -52,7 +52,7 @@ const server  = app.listen(process.env.port,()=>{
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://chat-app-deploy.onrender.com/",
+    origin: "https://zonked-hall-6274-1nywwrloa-srjizhere.vercel.app/",
   },
 });
 io.on("connection",(socket)=>{
