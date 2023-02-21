@@ -53,7 +53,7 @@ const server  = app.listen(process.env.port,()=>{
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "https://zonked-hall-6274.vercel.app/",
+    origin: "*",
   },
 });
 io.on("connection",(socket)=>{
