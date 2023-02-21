@@ -17,8 +17,8 @@ import axios from "axios";
 import './style.css'
 import ScrollableChat from "./ScrollableChat";
 import io from 'socket.io-client';
-
-const ENDPOINT = "https://zonked-hall-6274-1nywwrloa-srjizhere.vercel.app/";
+//https://zonked-hall-6274-8wlvp84ul-srjizhere.vercel.app/
+const ENDPOINT = "//https://zonked-hall-6274.vercel.app/";
 var socket,SelectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
