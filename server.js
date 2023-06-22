@@ -2,10 +2,10 @@ const express = require("express");
 const colors = require("colors");
 require("dotenv").config();
 const connectDB = require("./config/db");
-const cors = require('cors');
+const cors = require("cors");
 
 connectDB();
-const app = express(); 
+const app = express();
 app.use(express.json());
 const userRoutes = require("./Routs/userRouts");
 const chatRoutes = require("./Routs/chat.Routes");
@@ -19,16 +19,16 @@ app.use("/api/message", messageRoutes);
 
 
 const __dirname1 = path.resolve();
-
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"));
   });
 
+
 app.use(notFound);
 app.use(errHandler);
 
-const PORT = process.env.port;
+const PORT = process.env.PORT || 8080;
 
 const server = app.listen(
   PORT,
@@ -38,7 +38,7 @@ const server = app.listen(
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     credentials: true,
   },
 });
@@ -47,7 +47,7 @@ io.on("connection", (socket) => {
   console.log("Connected to socket.io");
   socket.on("setup", (userData) => {
     socket.join(userData._id);
-    console.log("user joint chat room of",userData);
+    console.log("user joint chat room of", userData);
     socket.emit("connected");
   });
 
@@ -57,7 +57,7 @@ io.on("connection", (socket) => {
   });
   socket.on("typing", (room) => {
     console.log(room);
-    socket.to(room).emit("typing")
+    socket.to(room).emit("typing");
   });
   socket.on("stop typing", (room) => socket.to(room).emit("stop typing"));
 
