@@ -50,7 +50,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain ,fetchMessages}) => {
         },
     };
     const { data } = await axios.put(
-      "http://localhost:8080/api/chat/groupremove",
+      "https://surajmernchat.adaptable.app/api/chat/groupremove",
       {
         chatId: SelectedChat._id,
         userId: user1._id,
@@ -104,7 +104,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain ,fetchMessages}) => {
           Authorization: `Bearer ${user.token}`,
         },
     };
-    const {data} = await axios.put('http://localhost:8080/api/chat/groupadd',{
+    const {data} = await axios.put('https://surajmernchat.adaptable.app/api/chat/groupadd',{
         chatId:SelectedChat._id,
         userId:user1._id,
     },
@@ -137,7 +137,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain ,fetchMessages}) => {
           Authorization: `Bearer ${user.token}`,
         },
     }
-    const {data} = await axios.put('http://localhost:8080/api/chat/rename',{
+    const {data} = await axios.put('https://surajmernchat.adaptable.app/api/chat/rename',{
         chatId:SelectedChat._id,
         chatName:groupChatName,
     },
@@ -172,7 +172,7 @@ const UpdateGroupChatModal = ({ fetchAgain, setFetchAgain ,fetchMessages}) => {
           },
         };
         const { data } = await axios.get(
-          `http://localhost:8080/api/user?search=${search}`,
+          `https://surajmernchat.adaptable.app/api/user?search=${search}`,
           config
         );
         console.log(data);
