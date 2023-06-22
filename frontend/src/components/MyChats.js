@@ -12,25 +12,26 @@ import GroupChatModal from "./miscellaneous/GroupChatModal";
 const MyChats = ({fetchAgain}) => {
   const [loggedUser, setLoggedUser] = useState();
   const { SelectedChat, setSelectedChat, user, chats, setChats } = ChatState();
-  
-
   const toast = useToast();
 
   const fetchChats = async () => {
     try {
       const config = {
+        'Content-Type':"application/json",
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get("/api/chat", config);
-      console.log(data);
+      const { data } = await axios.get(
+        "https://surajmernchat.adaptable.app/api/chat",
+        config
+      );
       setChats(data);
     } catch (error) {
       toast({
         title: "Error Occured",
         description: "failed to load the chats",
-        status: "Error",
+        status: "error",
         duration: 4000,
         isClosable: true,
         position: "bottom-left",
@@ -113,5 +114,4 @@ const MyChats = ({fetchAgain}) => {
     </Box>
   );
 };
-
 export default MyChats;

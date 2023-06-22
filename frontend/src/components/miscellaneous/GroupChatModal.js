@@ -41,7 +41,10 @@ const GroupChatModal = ({children}) => {
             Authorization:`Bearer ${user.token}`,
           },
         };
-        const {data} = await axios.get(`/api/user?search=${search}`,config)
+        const { data } = await axios.get(
+          `http://localhost:8080/api/user?search=${search}`,
+          config
+        );
         setLoading(false);
         setsearchResult(data)
 
@@ -49,7 +52,7 @@ const GroupChatModal = ({children}) => {
            toast({
         title: "Error Occured!",
         description: "failed to load Search Results",
-        status: "Error",
+        status: "error",
         duration: 5000,
         isClosable: true,
         position: "bottom-left",
@@ -73,10 +76,13 @@ const GroupChatModal = ({children}) => {
             Authorization:`Bearer ${user.token}`,
           },
         };
-        const {data} = await axios.post(`/api/chat/group`,{
-          name:groupChatName,
-          users:JSON.stringify(selectedUsers.map((u)=>u._id)),
-        },config
+        const { data } = await axios.post(
+          `http://localhost:8080/api/chat/group`,
+          {
+            name: groupChatName,
+            users: JSON.stringify(selectedUsers.map((u) => u._id)),
+          },
+          config
         );
         setChats([data,...chats])
         onClose();
@@ -100,7 +106,7 @@ const GroupChatModal = ({children}) => {
         }
     }
     const handleDelete = (delUser)=>{
-      setselectedUsers(selectedUsers.filter(sel=>sel._id!==delUser._id))
+      setselectedUsers(selectedUsers.filter(sel=>sel._id!==delUser._id));
     }
     const handleGroup = (userToAdd)=>{
       if(selectedUsers.includes(userToAdd)){

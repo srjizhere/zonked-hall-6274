@@ -4,7 +4,6 @@ import ScrollableFeed from 'react-scrollable-feed'
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from '../config/ChatLogics';
 import { ChatState } from '../context/chatprovider';
 const ScrollableChat = ({messages}) => {
-  console.log(messages,"fsdadsfsdfsdfs");
   const { user }  = ChatState();
   return (
     <ScrollableFeed>

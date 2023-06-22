@@ -2,16 +2,16 @@ import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, V
 import React, { useState } from 'react';
 import {useToast} from "@chakra-ui/react";
 import  axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [show, setShow] = useState(false)
-    const [email, setEmail] = useState();
-        const [password, setPassword] = useState();
+    const [email, setEmail] = useState("");
+        const [password, setPassword] = useState("");
         const [loading, setLoading] = useState(false)
         
         const toast = useToast();
-        const history = useHistory()
+        const navigate = useNavigate()
         const handleClick = ()=>setShow(!show);
 
     const submitHandler = async () => { 
@@ -33,11 +33,12 @@ const Login = () => {
                     'Content-type':"application/json",
                 },
             };
-            const {data} = await axios.post(
-                "/api/user/login",
+            const data  = await axios.post(
+                "https://surajmernchat.adaptable.app/api/user/login",
                 {email,password},
                 config
             );
+            console.log(data,"this is hardcoded")
                toast({
                 title:"Login Successfull",
                 status:"success",
@@ -45,14 +46,15 @@ const Login = () => {
                 isClosable:true,
                 position:"bottom",
             });
-            localStorage.setItem('userInfo',JSON.stringify(data));
+            localStorage.setItem('userInfo',JSON.stringify(data.data));
             setLoading(false);
-            history.push('/chats')
+            navigate('/chats')
 
         }catch(error){
+            console.log(error);
                toast({
                 title:"Error Occured",
-                description:error.response.data.message,
+                description:"Error Occur While Login",
                 status:"error",
                 duration:5000,
                 isClosable:true,

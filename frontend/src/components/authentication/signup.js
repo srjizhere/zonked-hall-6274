@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import { Button, FormControl, FormLabel, Input, InputGroup, InputRightElement, useToast, VStack } from '@chakra-ui/react'
 import axios from 'axios';
-import {useHistory} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 //https://api.cloudinary.com/v1_1/dbpt6np2b
 const Signup = () => {
     const [show, setShow] = useState(false)
@@ -12,7 +12,7 @@ const Signup = () => {
     const [pic, setPic] = useState();
     const [loading, setLoading] = useState(false);
     const toast = useToast();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleClick = ()=>setShow(!show)
     const submitHandler = async()=>{ 
@@ -45,7 +45,7 @@ const Signup = () => {
                     "Content-type":"application/json",
                 },
             };
-            const {data} = await axios.post('/api/user',
+            const {data} = await axios.post('https://surajmernchat.adaptable.app/api/user',
             {name,email,password,pic},
             config
             );
@@ -56,9 +56,9 @@ const Signup = () => {
                 isClosable:true,
                 position:"bottom",
             });
-            localStorage.setItem('userInfo',JSON.stringify(data));
+            localStorage.setItem('userInfo',JSON.stringify(data.data));
             setLoading(false);
-            history.pushState('/chats')
+            navigate('/chats')
         }catch(error){
             console.log(error);
                    toast({
