@@ -44,7 +44,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
         setLoading(true)
          const { data } = await axios.get(
-           `api/message/${SelectedChat._id}`,
+           `http://localhost:8080/api/message/${SelectedChat._id}`,
            config
          );
            
@@ -76,7 +76,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           };
           setNewMessage("");
           const { data } = await axios.post(
-            "api/message",
+            "http://localhost:8080/api/message",
             {
               content: newMessage,
               chatId: SelectedChat._id,
@@ -98,7 +98,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     };
     useEffect(() => {
-      socket = io();
+      socket = io(ENDPOINT);
       socket.emit("setup", user);
       socket.on("connected", () => setSocketConnected(true));
       socket.on("typing", () =>{ 
