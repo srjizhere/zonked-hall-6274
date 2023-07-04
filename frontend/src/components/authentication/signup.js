@@ -45,7 +45,7 @@ const Signup = () => {
                     "Content-type":"application/json",
                 },
             };
-            const {data} = await axios.post('https://surajmernchat.adaptable.app/api/user',
+            const {data} = await axios.post('api/user',
             {name,email,password,pic},
             config
             );

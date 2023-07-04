@@ -18,7 +18,7 @@ import './style.css'
 import ScrollableChat from "./ScrollableChat";
 import io from 'socket.io-client';
 //https://zonked-hall-6274-8wlvp84ul-srjizhere.vercel.app/
-const ENDPOINT = "https://surajmernchat.adaptable.app";
+const ENDPOINT = "http://localhost:8080";
 var socket,SelectedChatCompare;
 
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
@@ -44,7 +44,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         }
         setLoading(true)
          const { data } = await axios.get(
-           `https://surajmernchat.adaptable.app/api/message/${SelectedChat._id}`,
+           `api/message/${SelectedChat._id}`,
            config
          );
            
@@ -76,7 +76,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           };
           setNewMessage("");
           const { data } = await axios.post(
-            "https://surajmernchat.adaptable.app/api/message",
+            "api/message",
             {
               content: newMessage,
               chatId: SelectedChat._id,
@@ -98,7 +98,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       }
     };
     useEffect(() => {
-      socket = io(ENDPOINT);
+      socket = io();
       socket.emit("setup", user);
       socket.on("connected", () => setSocketConnected(true));
       socket.on("typing", () =>{ 

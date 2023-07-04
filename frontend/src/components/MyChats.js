@@ -15,6 +15,7 @@ const MyChats = ({fetchAgain}) => {
   const toast = useToast();
 
   const fetchChats = async () => {
+    console.log(user)
     try {
       const config = {
         'Content-Type':"application/json",
@@ -23,9 +24,10 @@ const MyChats = ({fetchAgain}) => {
         },
       };
       const { data } = await axios.get(
-        "https://surajmernchat.adaptable.app/api/chat",
+        "api/chat",
         config
       );
+      console.log(data);
       setChats(data);
     } catch (error) {
       toast({
@@ -101,7 +103,7 @@ const MyChats = ({fetchAgain}) => {
               >
                 <Text>
                   {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
+                    ? getSender(user, chat.users)
                     : chat.chatName}
                 </Text>
               </Box>

@@ -49,7 +49,7 @@ const authuser = asyncHandler(async (req,res)=>{
         console.log(user);
     }else{
         res.status(401);
-        throw new Error("Invalid Eamil or Password")
+        throw new Error("Invalid Email or Password")
     }
 });
 //api/user?search = piyush

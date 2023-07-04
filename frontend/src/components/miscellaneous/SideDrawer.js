@@ -72,7 +72,7 @@ const SideDrawer = () => {
         },
       };
       const { data } = await axios.get(
-        `https://surajmernchat.adaptable.app/api/user?search=${search}`,
+        `api/user?search=${search}`,
         config
       );
       setLoading(false);
@@ -99,7 +99,7 @@ const SideDrawer = () => {
       };
 
       const { data } = await axios.post(
-        "https://surajmernchat.adaptable.app/api/chat",
+        "api/chat",
         { userId },
         config
       );

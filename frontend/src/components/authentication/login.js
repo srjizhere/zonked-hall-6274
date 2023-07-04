@@ -33,8 +33,8 @@ const Login = () => {
                     'Content-type':"application/json",
                 },
             };
-            const data  = await axios.post(
-                "https://surajmernchat.adaptable.app/api/user/login",
+            const {data}  = await axios.post(
+                "api/user/login",
                 {email,password},
                 config
             );
@@ -46,7 +46,7 @@ const Login = () => {
                 isClosable:true,
                 position:"bottom",
             });
-            localStorage.setItem('userInfo',JSON.stringify(data.data));
+            localStorage.setItem('userInfo',JSON.stringify(data));
             setLoading(false);
             navigate('/chats')
 
